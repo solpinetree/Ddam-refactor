@@ -1,0 +1,124 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<script th:if="${notice_boardlist == null} or ${#lists.size(notice_boardlist) <= 0}">
+	alert("해당 정보가 삭제되거나 없습니다");
+	history.back();
+</script>			
+
+
+<th:block th:with="dto=${notice_boardlist[0]}" th:unless="${notice_boardlist == null} or ${#lists.size(notice_boardlist) <= 0}">
+		
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>[[${dto.subject }]]</title>  <!-- 제목에 내용을 넣을수도 있다 -->
+	<meta name="description"
+		content="Free Bootstrap Theme by ProBootstrap.com">
+	<meta name="keywords"
+		content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+	
+	<link rel="stylesheet" th:href="@{/css/custom.css}">
+	<link rel="stylesheet" th:href="@{/css/styles-merged.css}">
+	<link rel="stylesheet" th:href="@{/css/style.min.css}">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700|Open+Sans" rel="stylesheet">
+	
+		<style>
+	label{
+	font-size:15px
+	}
+	
+	</style>
+	
+</head>
+<head th:replace="include/common::iconstyle"></head>
+<script>
+function chkDelete(nbid){
+	// 삭제 여부, 다시 확인하고 진행
+	var r = confirm("삭제하시겠습니까?");
+	
+	if(r){
+		location.href = "deleteOk?nbid=" + nbid;
+	}
+}
+</script>
+
+<body>
+<!--  header -->
+		<!-- 페이지 -->
+	<div class="probootstrap-page-wrapper">
+	
+		<!-- 헤더 -->
+		<div th:replace="include/header::header"></div>
+		
+		<!-- 네비게이션 바 -->
+		<div th:replace="include/header::nav"></div>
+	
+<!--  공지사항 뷰 (관리자)  -->	
+		<section class="probootstrap-section probootstrap-section-colored">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-left section-heading mb0">
+						<h1 class="mb0">[[${dto.subject }]]</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+	<div class="container mt-3">
+		<hr>
+		<div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info" style="font-size:15px">
+            <span class="float-start me-2">번호: [[${dto.nbid }]]</span>
+            <span class="float-end ms-4">작성일: [[${#temporals.format(dto.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+            <span class="float-end">조회수: [[${dto.view_cnt }]]</span>
+        </div>
+        <section>
+            <div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info">
+                <label for="subject">제목:</label>
+                 <div class="border bg-light rounded p-2" style="height:50; border:solid lightgray">[[${dto.subject }]]</div>
+            </div>    
+            <div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info">
+                <label for="content">내용:</label>
+                 <div class="border bg-light rounded p-2" style="height:300; border:solid lightgray">[[${dto.content }]]</div>
+            </div>    
+            <div class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info">
+            <label for="inputFile" class="col-sm-2 col-form-label">첨부 파일</label>
+            <div class="col-sm-10">
+                    <img id = "uploadedImg" th:src="@{'/img/' + ${notice_filelist[0].filename}}" style="width:600;height:500;margin-bottom:50px">
+            </div>            
+        </div>
+			<div class="cbBtn" style="margin-bottom:10px ">
+            <button type="button" class="btn btn-primary" th:onclick="'location.href=\'' + @{update(nbid=${dto.nbid})} + '\''">수정</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='list'">목록</button>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="location.href='write'">작성</button>
+            <button type="button" class="btn btn-primary" th:onclick="'chkDelete(' + ${dto.nbid} + ')'">삭제</button>
+
+        </section>        
+	</div>
+	    		<!-- 본문 하단 -->
+		<section class="probootstrap-cta">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+					</div>
+				</div>
+			</div>
+		</section>
+		    		<!-- 본문 하단 -->
+		<section class="probootstrap-cta">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--  footer -->
+		<div th:replace="include/footer :: footer"></div>
+	
+	</div>
+	
+	<script th:src="@{/js/scripts.min.js}"></script>
+	<script th:src="@{/js/main.min.js}"></script>
+	<script th:src="@{/js/custom.js}"></script>
+
+</body>
+</html>

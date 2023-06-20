@@ -1,0 +1,226 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:with="list=${list[0]}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>커뮤니티 : [[${list.subject}]]</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700|Open+Sans">
+<link rel="stylesheet" th:href="@{/css/styles-merged.css}">
+<link rel="stylesheet" th:href="@{/css/style.min.css}">
+<link rel="stylesheet" th:href="@{/css/community.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<head th:replace="include/common::iconstyle"></head>
+<body>
+
+	<!-- 페이지 -->
+	<div class="probootstrap-page-wrapper">
+	
+		<!-- 헤더 -->
+		<div th:replace="include/header::header"></div>
+		
+		<!-- 네비게이션 바 -->
+		<div th:replace="include/header::nav"></div>
+		
+		<!-- 본문 상단 -->
+		<section class="probootstrap-section probootstrap-section-colored">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-left section-heading mb0">
+						<h1 class="mb0">커뮤니티</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 본문 중단 -->
+		<section class="probootstrap-section probootstrap-bg-white">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portfolio-feed three-cols">
+							<div class="communityBoard">
+							
+								<div class="pageTitle">[[${list.subject}]]</div>
+								
+								<!-- 게시글 정보 -->
+								<div class="viewInfo">
+									<span>
+							            <span id="writer">[[${list.username}]]</span>
+							            <span>/</span>
+							            <span>[[${#temporals.format(list.createdAt, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+									</span>
+						            <span>조회 수 : [[${list.viewCnt}]]</span>
+						        </div>
+						        <hr>
+						        
+						        <!-- 게시글 내용 -->
+						        <section class="viewContent">
+						        	<div class="fileList" th:each="fileList: ${list.communityFiles}">
+						        		<img th:alt="${fileList.originalName}" th:src="'/commuUpload/' + ${fileList.fileName}">
+						        	</div>
+						            <div class="inputForm">[[${list.content}]]</div>
+								</section>
+								
+								<!-- 좋아요 -->
+								<div class="likeToggle">
+									<div id="likes">좋아요 [[${likes}]]</div>
+									<span id="likeBtn"></span>
+								</div>
+								
+								<!-- 게시판 버튼 -->
+								<div class="cbBtn">
+						        	<button type="button" class="btn" th:onclick="'chkDelete(' + ${list.id} + ')'">삭제</button>
+									<button type="button" class="btn" th:onclick="'chkUpdate(' + ${list.id} + ')'">수정</button>
+						        	<button type="button" class="btn" onclick="location.href='list'">목록</button>
+						        	<button type="button" class="btn" onclick="chkWrite()">작성</button>
+						        </div>
+						        
+						        <!-- 댓글 -->
+						        <section class="viewComment">
+							        <form name="commentForm" action="commentInsert" method="post" sec:authorize="isAuthenticated()">
+							        	<hr>
+							        	<input type="hidden" id="cbId" name="cbId" th:value="${list.id}">
+							        	<input type="text" class="inputForm" id="comment" name="comment" placeholder="댓글을 작성해 주세요">
+							        	<button type="submit">등록</button>
+							        </form>
+							        <div>
+							        	<div class="commentList" th:each="commentList: ${list.communityComments}">
+							        		<hr>
+							        		<div>
+								        		<span th:each="user: ${commentList.user}">[[${user.username}]] / [[${#temporals.format(commentList.createdAt, 'yyyy-MM-dd HH:mm:ss')}]]</span>
+								        		<button type="button" th:onclick="'chkDeleteComment(' + ${commentList.id} + ')'">X</button>
+							        		</div>
+							        		<div>[[${commentList.comment}]]</div>
+							        	</div>
+							        </div>
+						        </section>
+						        
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 본문 하단 -->
+		<section class="probootstrap-cta">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 푸터 -->
+		<div th:replace="include/footer :: footer"></div>
+		
+	</div>
+	
+	<!-- 이거 있으면 a, button 안됨. 대신 빼면 페이지에 들어간 애니메이션도 다 빼야됨.
+	<script th:src="@{/js/scripts.min.js}"></script>
+	<script th:src="@{/js/main.min.js}"></script>
+	<script th:src="@{/js/custom.js}"></script>
+	-->
+
+</body>
+<script inline="javascript">
+function chkDelete(id) {
+	var writer = document.getElementById("writer").innerHTML;
+	var username = "[[${session.username}]]";
+	
+	if(writer == username) {
+		var r = confirm("게시글을 삭제하시겠습니까?");
+	
+		if(r){
+			location.href = 'deleteOk?id=' + id;
+		}
+	} else {
+		alert("작성자가 아닙니다");
+	}
+}
+
+function chkUpdate(id) {
+	var writer = document.getElementById("writer").innerHTML;
+	var username = "[[${session.username}]]";
+	
+	if(writer == username) {
+		location.href = 'update?id=' + id;
+	} else {
+		alert("작성자가 아닙니다");
+	}
+}
+
+function chkWrite() {
+	var username = "[[${session.username}]]";
+	
+	if(username == "" || username == null) {
+		alert("로그인이 필요합니다");
+		location.href = '/members/login';
+	} else {
+		location.href = 'write';
+	}
+}
+
+function chkDeleteComment(id) {
+	var r = confirm("댓글을 삭제하시겠습니까?");
+	
+	if(r){
+		location.href = 'commentDelete?id=' + id;
+	}
+}
+
+// 처음 진입시 좋아요 가져오기
+$(document).ready(function() {
+	var cbId = document.getElementById("cbId").value;
+	
+	$.ajax({
+		url: "/community/likeView",
+		type: "GET",
+		cache: false,
+		dataType: "json",
+		data: {
+			"cbId" : cbId
+		},
+		success: function(data, status) {
+			if(status == "success") {
+				viewLikes(data);
+			}
+		}
+	});
+});
+
+// 성공 시 좋아요 가져오기
+$("#likeBtn").click(function() {
+	var cbId = document.getElementById("cbId").value;
+	
+	$.ajax({
+		url: "/community/likeToggle",
+		type: "GET",
+		cache: false,
+		dataType: "json",
+		data: {
+			"cbId" : cbId
+		},
+		success: function(data, status) {
+			if(status == "success") {
+				viewLikes(data);
+			}
+		}
+	});
+});
+
+// 화면에 좋아요 보여주기
+function viewLikes(data) {
+	document.getElementById("likes").innerHTML = "좋아요 " + data.likes;
+	
+	if(data.toggle == 0) {
+		$("#likeBtn").html("<img src='/img/heartE.png'>");
+	} else {
+		$("#likeBtn").html("<img src='/img/heart.png'>");
+	}
+}
+</script>
+</th:block>
+</html>

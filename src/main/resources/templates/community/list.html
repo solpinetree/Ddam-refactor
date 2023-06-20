@@ -1,0 +1,192 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>커뮤니티</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700|Open+Sans">
+<link rel="stylesheet" th:href="@{/css/styles-merged.css}">
+<link rel="stylesheet" th:href="@{/css/style.min.css}">
+<link rel="stylesheet" th:href="@{/css/community.css}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<head th:replace="include/common::iconstyle"></head>
+<body>
+
+	<!-- 페이지 -->
+	<div class="probootstrap-page-wrapper">
+	
+		<!-- 헤더 -->
+		<div th:replace="include/header::header"></div>
+		
+		<!-- 네비게이션 바 -->
+		<div th:replace="include/header::nav"></div>
+		
+		<!-- 본문 상단 -->
+		<section class="probootstrap-section probootstrap-section-colored">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-left section-heading mb0">
+						<h1 class="mb0">커뮤니티</h1>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 본문 중단 -->
+		<section class="probootstrap-section probootstrap-bg-white">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portfolio-feed three-cols">
+							<div class="communityBoard commnityList">
+							
+								<!-- 게시판 내 검색 -->
+								<form name="searchForm" class="searchForm">
+									<select name="sType" th:value="${sType}">
+										<option value="snc">제목 + 내용</option>
+										<option value="usr">작성자</option>
+										<option value="sbj">제목</option>
+										<option value="cnt">내용</option>
+									</select>
+									<input type="text" name="sKeyword" th:value="${sKeyword}">
+									<button type="submit" class="searchBtn">검색</button>
+								</form>
+								
+								<!-- 게시판 테이블 -->
+								<div id="communityTable">
+									<table class="table">
+										<tr>
+											<th class="tbcenter">번호</th>
+											<th class="tbcenter">제목</th>
+											<th class="tbcenter">작성자</th>
+											<th class="tbcenter">작성일</th>
+											<th class="tbcenter">조회 수</th>
+										</tr>
+										<tr th:each="pagingList: ${pagingList}">
+											<td class="tbcenter">[[${pagingList.id}]]</td>
+											<td><a th:href="@{view(id=${pagingList.id})}">[[${pagingList.subject}]]</a></td>
+											<td class="tbcenter">[[${pagingList.username}]]</td>
+											<td class="tbcenter">[[${#temporals.format(pagingList.createdAt, 'yyyy-MM-dd')}]]</td>
+											<td class="tbcenter">[[${pagingList.viewCnt}]]</td>
+										</tr>
+									</table>
+								</div>
+								
+								<!-- 버튼 -->
+								<div class="cbBtn">
+									<button type="button" class="btn" onclick="chkWrite()">글 작성</button>
+								</div>
+								
+								<!-- 페이지 네비게이션 -->
+								<form id="pageForm" name="pageForm">
+									<div th:if="${not #strings.isEmpty(sKeyword)}">
+										<input type="hidden" id="sType" name="sType" th:value="${sType}">
+										<input type="hidden" id="sKeyword" name="sKeyword" th:value="${sKeyword}">
+									</div>
+									<input type="hidden" id="pageNum" name="pageNum" th:value="${pageNum}">
+									<ul class="pagination">
+										<li><a href="#" id="startPage">처음</a></li>
+										<li><a href="#" id="minusPage">&lt;</a></li>
+										
+										<!-- 페이지 번호로 이동 -->
+										<li th:each="paging: ${#numbers.sequence(0, totalPage - 1)}">
+											<a href="#" th:id="pageNum + ${pagingStat.index}" th:text="${pagingStat.index + 1}"></a>
+											<script th:inline="javascript">
+											// 에러 아닌데 에러 뜸
+											$([['#' + ${'pageNum' + pagingStat.index}]]).click(function() {
+												document.getElementById("pageNum").value = [[${pagingStat.index}]];
+												
+												movePage();
+											});
+											</script>
+										</li>
+										
+										<li><a href="#" id="plusPage">&gt;</a></li>
+										<li><a href="#" id="endPage">끝</a></li>
+									</ul>
+								</form>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 본문 하단 -->
+		<section class="probootstrap-cta">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 푸터 -->
+		<div th:replace="include/footer :: footer"></div>
+		
+	</div>
+
+	<!-- 이거 있으면 일부 a, button 안됨. 대신 빼면 페이지에 들어간 애니메이션도 다 빼야됨.
+	<script th:src="@{/js/scripts.min.js}"></script>
+	<script th:src="@{/js/main.min.js}"></script>
+	<script th:src="@{/js/custom.js}"></script>
+	-->
+
+</body>
+<script th:inline="javascript">
+function chkWrite() {
+	var username = [[${session.username}]];
+	
+	if(username == "" || username == null) {
+		alert("로그인이 필요합니다");
+		location.href = '/members/login';
+	} else {
+		location.href = 'write';
+	}
+}
+
+$("#startPage").click(function() {
+	document.getElementById("pageNum").value = 0;
+	
+	movePage();
+});
+
+$("#minusPage").click(function() {
+	var pageNum = document.getElementById("pageNum").value;
+	
+	if(pageNum == 0) {
+		alert("첫페이지입니다");
+	} else {
+		document.getElementById("pageNum").value--;
+		movePage();
+	}
+});
+
+// 에러 아닌데 에러 뜸...
+$("#plusPage").click(function() {
+	var pageNum = document.getElementById("pageNum").value;
+	
+	if(pageNum == [[${totalPage - 1}]]) {
+		alert("마지막 페이지입니다");
+	} else {
+		document.getElementById("pageNum").value++;
+		movePage();
+	}
+});
+
+// 에러 아닌데 에러 뜸...
+$("#endPage").click(function() {
+	document.getElementById("pageNum").value = [[${totalPage - 1}]];
+	
+	movePage();
+});
+
+function movePage() {
+	var pageForm = document.getElementById("pageForm");
+	
+	pageForm.submit();
+}
+</script>
+</html>
