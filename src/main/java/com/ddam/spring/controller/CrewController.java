@@ -115,7 +115,7 @@ public class CrewController {
 		
     	HttpSession session = request.getSession();
     	String username = (String)session.getAttribute("username");
-    	User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username).orElseThrow();
     	
     	if(user!=null) {
     		model.addAttribute("user",user);
@@ -134,7 +134,7 @@ public class CrewController {
 		
     	HttpSession session = request.getSession();
     	String username = (String)session.getAttribute("username");
-    	User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username).orElseThrow();
     	
     	model.addAttribute("user", user);
     	
@@ -216,7 +216,7 @@ public class CrewController {
 		// 유효성 검사 통과 후 
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
 		
 		System.out.println(user + " crewAdmin user 정보");
 
@@ -355,7 +355,7 @@ public class CrewController {
 	public String request(@PathVariable("cid") long cid, Model model, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
 		model.addAttribute("user", user);
 		model.addAttribute("cid", cid);
 		return "crew/follow-request";
@@ -396,7 +396,7 @@ public class CrewController {
 		
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
     	
 //    	crewRepository.findById(cid).getMembers().remove(user);
     	

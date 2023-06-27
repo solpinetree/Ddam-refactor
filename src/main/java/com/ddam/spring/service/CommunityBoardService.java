@@ -74,7 +74,7 @@ public class CommunityBoardService {
 	
 	// 유저 정보 가져오기
 	public User loadUser(String username) {
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
 		
 		return user;
 	}
