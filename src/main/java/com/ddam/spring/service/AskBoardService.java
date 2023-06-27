@@ -11,37 +11,37 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddam.spring.domain.Ask_board;
-import com.ddam.spring.domain.Ask_file;
+import com.ddam.spring.domain.AskBoard;
+import com.ddam.spring.domain.AskFile;
 import com.ddam.spring.domain.User;
-import com.ddam.spring.repository.Ask_boardRepository;
-import com.ddam.spring.repository.Ask_fileRepository;
+import com.ddam.spring.repository.AskBoardRepository;
+import com.ddam.spring.repository.AskFileRepository;
 import com.ddam.spring.repository.UserRepository;
 
 @Service
-public class Ask_boardService {
+public class AskBoardService {
 
 	@Autowired
-	private Ask_boardRepository repository;
+	private AskBoardRepository repository;
 	
 	@Autowired
-	private Ask_fileRepository filerepository;
+	private AskFileRepository filerepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
-	public Ask_boardService() {
+	public AskBoardService() {
 		System.out.println("Ask_boardService() 생성");
 	}
 	
 	// 문의사항 게시판 목록페이지
-	public List<Ask_board> list() {
+	public List<AskBoard> list() {
 		return repository.findAll(Sort.by(Direction.ASC, "abid"));
 	}
 
 	// 문의사항 작성페이지(제목, 내용)
 	@Transactional
-	public Long saveAsk_board(Ask_board dto) {
+	public Long saveAsk_board(AskBoard dto) {
 		
 		User user = null;
 		// 현재 로그인한
@@ -50,7 +50,7 @@ public class Ask_boardService {
 			user = (User)authentication.getPrincipal();
 		}
 		
-		user = userRepository.findByUsername(user.getUsername());
+		user = userRepository.findByUsername(user.getUsername()).orElseThrow();
 		
 		dto.setUid(user);
 		
@@ -61,11 +61,11 @@ public class Ask_boardService {
 	// 문의사항 뷰페이지(제목, 내용)
 	// 특정 abid 의 글 읽어오기 + 조회수 증가
 	@Transactional   // 해당 메소드는 하나의 트랜잭션으로 처리함.
-	public List<Ask_board> viewByAbid(long abid){
+	public List<AskBoard> viewByAbid(long abid){
 		
-		List<Ask_board> list = new ArrayList<>();
+		List<AskBoard> list = new ArrayList<>();
 		
-		Ask_board data = repository.findById(abid).orElse(null); // SELECT
+		AskBoard data = repository.findById(abid).orElse(null); // SELECT
 		if(data != null) {
 			data.setView_cnt(data.getView_cnt() + 1);
 			repository.saveAndFlush(data);  // UPDATE
@@ -75,18 +75,18 @@ public class Ask_boardService {
 	}
 	
 	//문의사항 읽어오기(제목, 내용)
-	public List<Ask_board> selectByAbid(long abid){
-		List<Ask_board> list = new ArrayList<>();
+	public List<AskBoard> selectByAbid(long abid){
+		List<AskBoard> list = new ArrayList<>();
 		list.add(repository.findById(abid).orElse(null));
 		return list;
 	}
 	
 	//문의사항 수정(제목, 내용)
-	public int update(Ask_board dto, String originalFileName) {
+	public int update(AskBoard dto, String originalFileName) {
 		int cnt = 0;
-		Ask_board data = repository.findById(dto.getAbid()).orElse(null);
-		List<Ask_file> files = filerepository.findByBoard(data);
-		Ask_file file = files.get(0); 
+		AskBoard data = repository.findById(dto.getAbid()).orElse(null);
+		List<AskFile> files = filerepository.findByBoard(data);
+		AskFile file = files.get(0);
 		
 		if(data != null) {
 				
@@ -104,8 +104,8 @@ public class Ask_boardService {
 	
 	//문의사항 삭제
 	public int deleteByUid(long abid) {
-		Ask_board board = repository.findById(abid).orElse(null);
-		List<Ask_file> files = filerepository.findByBoard(board);
+		AskBoard board = repository.findById(abid).orElse(null);
+		List<AskFile> files = filerepository.findByBoard(board);
 		files.forEach(i -> filerepository.delete(i));
 		repository.deleteById(abid);
 		repository.flush();
@@ -114,17 +114,17 @@ public class Ask_boardService {
 	
 	//문의사항 답변페이지(제목,내용)
 	@Transactional
-	public List<Ask_board> selectByAbid_Admin(long abid){
-		List<Ask_board> list = new ArrayList<>();
+	public List<AskBoard> selectByAbid_Admin(long abid){
+		List<AskBoard> list = new ArrayList<>();
 		list.add(repository.findById(abid).orElse(null));
 		return list;
 	}	
 
 	// 문의사항 답변페이지(답변작성)
 	@Transactional
-	public int update_admin(Ask_board dto) {
+	public int update_admin(AskBoard dto) {
 		int cnt = 0;
-		Ask_board data = repository.findById(dto.getAbid()).orElse(null);
+		AskBoard data = repository.findById(dto.getAbid()).orElse(null);
 		
 		if(data != null) {
 			data.setAnswer(dto.getAnswer());

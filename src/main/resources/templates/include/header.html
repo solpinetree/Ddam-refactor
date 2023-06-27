@@ -4,145 +4,51 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5 ">
 
-
-
-
 <!-- 헤더 -->
 <div class="probootstrap-header-top" th:fragment="header">
 	<div class="container">
 	 	<div class="row"> 
 		 	<div
 				class="col-lg-9 col-md-9 col-sm-9 probootstrap-top-quick-contact-info" >
-				
 			</div> 
 			<div class="col-lg-3 col-md-3 col-sm-3 probootstrap-top-social" align="right" style="width:100% !important;">
-
-					<th:block sec:authorize="isAnonymous()">
-						<ul>
-						<li>
-						<a sec:authorize="isAnonymous()" class="nav-link"
-							href="/members/login">로그인</a>
-
-						</li>|<li>
-
-						<a sec:authorize="isAnonymous()" class="nav-link"
-							href="/members/join">회원가입</a></li>
-						</ul>
-					</th:block>
-					<th:block sec:authorize="isAuthenticated()">
-						<ul>
-							<li class="nav-item" align="left"><a type="button" class="btn btn-primary" id="Notifications">
-								<input type="hidden" id="userId" th:value="${session.user.id}">
-								<span><i class="fa fa-bell" aria-hidden="true"></i> </span>
+				<th:block sec:authorize="isAuthenticated()">
+					<ul style="margin: 5px 0 5px 0;">
+						<li class="nav-item" align="left">
+							<a type="button" class="btn btn-primary" id="Notifications" style="margin-right: 10px;">
+								<input type="hidden" id="userId" th:value="${#authentication.principal.id}">
+								<span><i class="fa fa-bell" aria-hidden="true"></i></span>
 								<span class="badge badge-sm badge-circle badge-danger border border-white border-2" id="notification-m">
-								<span id="notiNum"></span>
-								</span></a>
-															<script th:inline="javascript">
-													
-																var userId = $("#userId").val();
-																// 알림 수
-																function notiCount(){
-																	
-																	$.ajax({
-																		url: "/notification/count",
-														                type: "POST",
-														                data: {
-														                    "userId": userId
-														                },
-														                success: function (res) {
-														                	$("#notiNum").html(res.count);
-														                },
-																	});
-																}
-																
-																// 알림 삭제 버튼을 누르면 . . 
-																function removeNoti(notiId){
-																	
-																	console.log(notiId);
-																	
-																	$.ajax({
-																		url: "/deleteNoti",
-														                type: "POST",
-														                data: {
-														                	"notiId":notiId
-														                },
-														                success: function (res) {
-														                	notiCount();
-														                	notilist();
-														                },
-																	});
-																}
-																		
-										
-															/* Notifications 버튼 클릭*/
-															$('#Notifications').click(function() {
-																
-																$('#notificationModal').modal(); //id가 "notificationModal"인 모달창을 열어준다. 
-													 	 		$('.modal-title').text("알림"); //modal 의 header 부분에 "크루 멤버"라는 값을 넣어준다.   
-													 	 		notilist();
-															});
-															
-															 	
-															function notilist() {
-																
-																$.ajax({
-																	url: '/notification/list/' + userId,
-																	type: 'post',
-																	async : true,
-																	data : {'userId' : userId},
-																	success : function(data) {
-																		var a = '<table class="modal_table">';
-																		$.each(data, function(key, value){
-																				var date = moment(value.writetime).format('YYYY-MM-DD HH:mm');
-																				a+='<tr><td id="modal_userID">'+ date +'</td>'; 
-																		 		a+='<td id="llll">'+value.noti+'</td>'; 
-																				a+='<td id="modal_userFollow">';
-																				a+='<button onclick="removeNoti('+value.id+')" class="btn btn-outline-primary">알림 삭제</button>';
-																				a+='</td></tr>';
-																		});
-																				a += '</table>';
-																		$('.notiModalBody').html(a);
-																	}
-																});
-															}
-													
-															
-														 	$(document).ready(function(){
-														 		notiCount();
-															 	setInterval(notiCount,1000);	// 처음 시작했을 때 실행되도록
-															 	setInterval(notilist, 4000);
-															});  
-													</script>
-							</li>
-							<li class="nav-item"><a href="/members/mypage"><span sec:authentication="name"></span>님</a>  </li>
-							<li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link" href="/logout">로그아웃</a></li>
-						</ul>
-										
-												<!-----------Notifications 모달 시작------------->
-	
-												<div class="modal fade" id="notificationModal" role="dialog">
-													<!-- 이곳에 적어준 id 값을 토대로 모달을 호출하게 된다.  -->
-													<div class="modal-dialog">
-											
-													<!-- 	Modal content -->
-														<div class="modal-content">
-															<div class="modal-header">
-																 <!-- 모달창의 header 부분에 해당한다.  -->
-																<h4 class="modal-title"></h4>
-																<button type="button" class="close" data-dismiss="modal">×</button>
-															</div>
-															<div class="notificationModal">
-												 				<div class="modal-body">
-	 																<div class="notiModalBody">
-	 																</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- -----------Notifications 모달 끝    ------------- -->
-					</th:block>
-					
+									<span id="notiNum"></span>
+								</span>
+							</a>
+						</li>
+						<li class="nav-item"><a href="/members/mypage"><span sec:authentication="principal.nickname"></span>님</a>  </li>
+						<li class="nav-item"><a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/logout}">로그아웃</a></li>
+					</ul>
+					<!-----------Notifications 모달------------->
+					<div class="modal fade" id="notificationModal" role="dialog">
+						<!-- 이곳에 적어준 id 값을 토대로 모달을 호출하게 된다.  -->
+						<div class="modal-dialog">
+							<!-- Modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									 <!-- 모달창의 header 부분에 해당한다.  -->
+									<h4 class="modal-title"></h4>
+									<button type="button" class="close" data-dismiss="modal">×</button>
+								</div>
+								<div class="notificationModal">
+									<div class="modal-body">
+										<div class="notiModalBody">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-----------Notifications 모달------------->
+					<script type="text/javascript" th:src="@{/js/noti.js}"></script>
+				</th:block>
 			</div>
 		</div>
 	</div>
@@ -154,10 +60,11 @@
 <nav class="navbar navbar-default probootstrap-navbar" th:fragment="nav">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/" title="땀땀!!" style="background: url('/img/logo.png')!important; background-repeat-x: no-repeat !important; background-repeat-y: no-repeat !important;">땀땀!!</a>
+			<a class="navbar-brand" href="/" title="땀땀!!">땀땀!!</a>
 		</div>
 		<div id="navbar-collapse" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
+				<li><a sec:authorize="!isAuthenticated()" th:href="@{/oauth2/authorization/kakao}" style="padding: 23px 0;"><img src="/images/kakao/kakao_login_medium.png"/></a></li>
 				<li><a href="/crew/meetup/list">모임 참가</a></li>
 				<li><a href="/crew/crews">크루 모집</a></li>
 				<li><a href="/community/list">커뮤니티</a></li>
@@ -166,13 +73,5 @@
 		</div>
 	</div>
 </nav>
-
-
-
-
-
-
-
-
-
+<!-- 네비게이션 바 -->
 </html>

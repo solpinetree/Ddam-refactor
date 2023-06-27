@@ -13,46 +13,46 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ddam.spring.domain.Ask_board;
-import com.ddam.spring.domain.Notice_board;
-import com.ddam.spring.domain.Notice_file;
-import com.ddam.spring.service.Ask_boardService;
-import com.ddam.spring.service.Ask_fileService;
-import com.ddam.spring.service.Notice_boardService;
-import com.ddam.spring.service.Notice_fileService;
+import com.ddam.spring.domain.AskBoard;
+import com.ddam.spring.domain.NoticeBoard;
+import com.ddam.spring.domain.NoticeFile;
+import com.ddam.spring.service.AskBoardService;
+import com.ddam.spring.service.AskFileService;
+import com.ddam.spring.service.NoticeBoardService;
+import com.ddam.spring.service.NoticeFileService;
 import com.ddam.spring.util.Ask_Notice_UtilFile;
 
 @Controller
 public class NoticeBoardController {
 	
-	private Notice_boardService notice_boardService;
+	private NoticeBoardService notice_boardService;
 
-	private Notice_fileService notice_fileService;
+	private NoticeFileService notice_fileService;
 	
 	@Autowired
-	private Ask_boardService ask_boardService;
+	private AskBoardService ask_boardService;
 	
 	@Autowired
-	private Ask_fileService ask_fileService;
+	private AskFileService ask_fileService;
 	
 	
 	@Autowired
-	public void setNotice_boardService(Notice_boardService notice_boardService) {
+	public void setNotice_boardService(NoticeBoardService notice_boardService) {
 		this.notice_boardService = notice_boardService;
 	}
 
 	@Autowired
-	public void setNotice_fileService(Notice_fileService notice_fileService) {
+	public void setNotice_fileService(NoticeFileService notice_fileService) {
 		this.notice_fileService = notice_fileService;
 	}
 	
 	@Autowired
-	public void setAsk_boardService(Ask_boardService ask_boardService) {
+	public void setAsk_boardService(AskBoardService ask_boardService) {
 		this.ask_boardService = ask_boardService;
 	}
 
 	@Autowired
-	public void setAsk_fileService(Ask_fileService ask_fileService) {
+	public void setAsk_fileService(AskFileService ask_fileService) {
 		this.ask_fileService = ask_fileService;
 	}
 
@@ -65,8 +65,8 @@ public class NoticeBoardController {
 
 
 	@PostMapping("/admin/notice/writeOk")
-	public void writeOk(Notice_board dto, Model model,
-			MultipartHttpServletRequest request, @RequestPart MultipartFile files) {
+	public void writeOk(NoticeBoard dto, Model model,
+						MultipartHttpServletRequest request, @RequestPart MultipartFile files) {
 		System.out.println("writeOk 진입");
 		
 		//제목,내용
@@ -75,7 +75,7 @@ public class NoticeBoardController {
 		model.addAttribute("dto", dto);
 		
 		//파일첨부
-		Notice_file file = new Notice_file();
+		NoticeFile file = new NoticeFile();
 		
 		String sourceFileName = files.getOriginalFilename(); 
 
@@ -107,17 +107,17 @@ public class NoticeBoardController {
 
 	@RequestMapping("/admin/notice/list")
 	public void admin_list(Model model) {
-		List<Notice_board> notice_boardlist = notice_boardService.list();
+		List<NoticeBoard> notice_boardlist = notice_boardService.list();
 		model.addAttribute("notice_boardlist", notice_boardService.list());
-		List<Ask_board> ask_boardlist = ask_boardService.list();
+		List<AskBoard> ask_boardlist = ask_boardService.list();
 		model.addAttribute("ask_boardlist", ask_boardService.list());
 	}
 
 	@RequestMapping("/notice/list")
 	public void list(Model model) {
-		List<Notice_board> notice_boardlist = notice_boardService.list();
+		List<NoticeBoard> notice_boardlist = notice_boardService.list();
 		model.addAttribute("notice_boardlist", notice_boardService.list());
-		List<Ask_board> ask_boardlist = ask_boardService.list();
+		List<AskBoard> ask_boardlist = ask_boardService.list();
 		model.addAttribute("ask_boardlist", ask_boardService.list());
 	}
 	
@@ -128,7 +128,7 @@ public class NoticeBoardController {
 	}
 	
 	@PostMapping("/admin/notice/updateOk")
-	public void updateOk(@ModelAttribute("dto") Notice_board notice_board, Model model, @RequestPart MultipartFile files) {
+	public void updateOk(@ModelAttribute("dto") NoticeBoard notice_board, Model model, @RequestPart MultipartFile files) {
 		String originalFilename = files.getOriginalFilename();
 		model.addAttribute("notice_boardresult", notice_boardService.update(notice_board, originalFilename));
 	}

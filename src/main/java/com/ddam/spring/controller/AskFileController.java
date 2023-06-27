@@ -3,15 +3,15 @@ package com.ddam.spring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ddam.spring.service.Ask_fileService;
+import com.ddam.spring.service.AskFileService;
 
 @Service
 public class AskFileController {
 	
-	private Ask_fileService ask_fileService;
+	private AskFileService ask_fileService;
 	
 	@Autowired
-	public void setAsk_fileService(Ask_fileService ask_fileService) {
+	public void setAsk_fileService(AskFileService ask_fileService) {
 		this.ask_fileService = ask_fileService;
 	}
 

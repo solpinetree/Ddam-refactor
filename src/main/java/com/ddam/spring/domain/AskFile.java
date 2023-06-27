@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @DynamicInsert 
-public class Notice_file {
+public class AskFile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long nfid;   
+	private Long afid;   
 	
 	@NotNull  // NOT NULL
 	@Column(length=100)
@@ -31,7 +31,9 @@ public class Notice_file {
 	@Column(length=100)
 	private String originalname;
 	
+	private Long abid;
+	
 	@ManyToOne
-	private Notice_board board;
+	private AskBoard board;
 
 }
