@@ -6,64 +6,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddam.spring.domain.Notice_board;
-import com.ddam.spring.domain.Notice_file;
-import com.ddam.spring.repository.Notice_boardRepository;
-import com.ddam.spring.repository.Notice_fileRepository;
+import com.ddam.spring.domain.NoticeBoard;
+import com.ddam.spring.domain.NoticeFile;
+import com.ddam.spring.repository.NoticeBoardRepository;
+import com.ddam.spring.repository.NoticeFileRepository;
 
 @Service
-public class Notice_fileService {
+public class NoticeFileService {
 
-	private Notice_fileRepository repository;
+	private NoticeFileRepository repository;
 	
 	@Autowired
-	public void setRepository(Notice_fileRepository repository) {
+	public void setRepository(NoticeFileRepository repository) {
 		this.repository = repository;
 	}
 
-	private Notice_boardRepository boardrepository;
+	private NoticeBoardRepository boardrepository;
 
 	@Autowired
-	public void setBoardrepository(Notice_boardRepository boardrepository) {
+	public void setBoardrepository(NoticeBoardRepository boardrepository) {
 		this.boardrepository = boardrepository;
 	}
 
-	public Notice_fileService() {
+	public NoticeFileService() {
 		System.out.println("Notice_fileService() 생성");
 	}
 
 	//공지사항 작성페이지(파일첨부)
 	@Transactional
-	public Notice_file saveNotice_file(Notice_file dto) {
+	public NoticeFile saveNotice_file(NoticeFile dto) {
 		repository.save(dto);
 		return dto;
 	}
 	
 	//공지사항 뷰페이지(파일첨부)
 	@Transactional   // 해당 메소드는 하나의 트랜잭션으로 처리함.
-	public List<Notice_file> viewByNfid(long nbid){
+	public List<NoticeFile> viewByNfid(long nbid){
 		
-		Notice_board board = boardrepository.findById(nbid).orElse(null);
+		NoticeBoard board = boardrepository.findById(nbid).orElse(null);
 		
-		List<Notice_file> files = repository.findByBoard(board);
+		List<NoticeFile> files = repository.findByBoard(board);
 		
 		return files;  // 읽어오기
 	}
 	
 	//공지사항 읽어오기(파일첨부)
-	public List<Notice_file> selectByNfid(long nbid){
+	public List<NoticeFile> selectByNfid(long nbid){
 		
-		Notice_board board = boardrepository.findById(nbid).orElse(null);
-		List<Notice_file> files = repository.findByBoard(board);
+		NoticeBoard board = boardrepository.findById(nbid).orElse(null);
+		List<NoticeFile> files = repository.findByBoard(board);
 		files = repository.findByBoard(board);
-		Notice_file file = files.get(0);
+		NoticeFile file = files.get(0);
 		return files;
 	}
 	
 	//공지사항 수정(파일첨부)
-	public int update(Notice_file file) {
+	public int update(NoticeFile file) {
 		int cnt = 0;
-		Notice_file data = repository.findById(file.getNfid()).orElse(null);
+		NoticeFile data = repository.findById(file.getNfid()).orElse(null);
 		if(data != null) {
 			data.setFilename(file.getFilename());
 			data.setOriginalname(file.getOriginalname());
@@ -76,8 +76,8 @@ public class Notice_fileService {
 	
 	//공지사항 삭제
 		public int deleteByUid(long abid) {
-			Notice_board board = boardrepository.findById(abid).orElse(null);
-			List<Notice_file> files = repository.findByBoard(board);
+			NoticeBoard board = boardrepository.findById(abid).orElse(null);
+			List<NoticeFile> files = repository.findByBoard(board);
 			repository.deleteById(abid);
 			repository.flush();		
 			return 1;
