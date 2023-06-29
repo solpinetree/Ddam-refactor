@@ -1,31 +1,24 @@
 package com.ddam.spring.service;
 
 
-import javax.transaction.Transactional;
-
+import com.ddam.spring.domain.Crew;
+import com.ddam.spring.repository.CrewRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ddam.spring.domain.Crew;
-import com.ddam.spring.repository.CrewRepository;
+import javax.transaction.Transactional;
+import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class CrewService {
-	
-	@Autowired
-    private CrewRepository crewRepository;
-	
-	@Autowired
-	private FollowRequestService followRequestService;
-	
-	@Autowired
-	private FollowService followService;
-	
-	@Autowired
-	private LikesService likesService;
-	
-	@Autowired
-	private MeetupService meetupService;
+
+    private final CrewRepository crewRepository;
+	private final FollowRequestService followRequestService;
+	private final FollowService followService;
+	private final LikesService likesService;
+	private final MeetupService meetupService;
 	
 	@Transactional
 	public void deleteById(long id) {
@@ -35,7 +28,11 @@ public class CrewService {
 		meetupService.deleteByCrewId(id);
 		crewRepository.deleteById(id);
 	}
-	
+
+	public List<Crew> findAll() {
+		return crewRepository.findAll();
+	}
+
 	public Crew findById(long id) {
 		return crewRepository.findById(id);
 	}

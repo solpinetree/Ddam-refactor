@@ -30,7 +30,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Entity
 @DynamicInsert 
-public class Notice_board {
+public class NoticeBoard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long nbid;   
@@ -57,7 +57,7 @@ public class Notice_board {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "notice_id")
 	@ToString.Exclude
-	private List<Notice_file> noticeFiles = new ArrayList<>();
+	private List<NoticeFile> noticeFiles = new ArrayList<>();
 	
 	
 

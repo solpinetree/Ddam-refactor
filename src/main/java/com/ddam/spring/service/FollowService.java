@@ -15,7 +15,6 @@ import com.ddam.spring.domain.User;
 import com.ddam.spring.repository.CrewRepository;
 import com.ddam.spring.repository.FollowRepository;
 import com.ddam.spring.repository.FollowRequestRepository;
-import com.ddam.spring.repository.NotificationRepository;
 import com.ddam.spring.repository.UserRepository;
 
 @Service
@@ -52,7 +51,7 @@ public class FollowService {
 		
 		Notification notification = new Notification();
 		notification.setUser(user);
-		notification.setNoti(crew.getName()+" 크루 멤버가 되었습니다.");
+		notification.setContent(crew.getName()+" 크루 멤버가 되었습니다.");
 		notificationService.save(notification);	
 		
 	}

@@ -31,7 +31,7 @@ public class FollowRequestService {
 		
 		Notification notification = new Notification();
 		notification.setUser(followRequest.getToCrew().getCrewAdmin());
-		notification.setNoti(followRequest.getToCrew().getName() + " 에 팔로우 요청이 왔습니다.");
+		notification.setContent(followRequest.getToCrew().getName() + " 에 팔로우 요청이 왔습니다.");
 		notificationService.save(notification);
 		
 		followRequestRepository.save(followRequest);

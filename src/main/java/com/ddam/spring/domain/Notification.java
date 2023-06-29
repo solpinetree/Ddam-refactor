@@ -1,17 +1,11 @@
 package com.ddam.spring.domain;
 
-import java.sql.Timestamp;
-import java.util.Comparator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import lombok.Data;
 import lombok.ToString;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Comparator;
 
 @Data
 @Entity
@@ -24,11 +18,11 @@ public class Notification implements Comparator<Notification>{
 	
 	Timestamp writetime;
 	
-	@ManyToOne
-	@JoinColumn(name="userId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="user_id")
 	private User user;
 	
-	private String noti;
+	private String content;
 
 
 @Override

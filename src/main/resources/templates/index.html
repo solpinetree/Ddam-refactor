@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5 ">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,19 +24,6 @@
 		
 		<!-- 네비게이션 바 -->
 		<div th:replace="include/header::nav"></div>
-		
-		<!-- 본문 상단 -->
-		<section
-			class="probootstrap-section probootstrap-section-colored probootstrap-bg probootstrap-custom-heading probootstrap-tab-section"
-			style="background-image: url(img/running.jpg)">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 text-left section-heading probootstrap-animate">
-						<h2>땀땀에 오신 것을 환영합니다</h2>
-					</div>
-				</div>
-			</div>
-		</section>
 		
 		<!-- 본문 -->
 		<section class="probootstrap-section probootstrap-bg-white probootstrap-border-top">

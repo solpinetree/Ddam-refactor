@@ -30,7 +30,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @Entity
 @DynamicInsert 
-public class Ask_board {
+public class AskBoard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long abid;   
@@ -60,7 +60,7 @@ public class Ask_board {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "board_id")
 	@ToString.Exclude
-	private List<Ask_file> askFiles = new ArrayList<>();
+	private List<AskFile> askFiles = new ArrayList<>();
 	
 	
 

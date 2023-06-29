@@ -119,7 +119,7 @@ public class MeetupController {
 		
     	HttpSession session = request.getSession();
     	String username = (String)session.getAttribute("username");
-    	User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username).orElseThrow();
     	
     	if(user!=null) {
     		List<Follow> followlist = followRepository.findByFromUserId(user.getId());

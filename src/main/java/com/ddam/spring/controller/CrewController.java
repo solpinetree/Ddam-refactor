@@ -115,7 +115,7 @@ public class CrewController {
 		
     	HttpSession session = request.getSession();
     	String username = (String)session.getAttribute("username");
-    	User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username).orElseThrow();
     	
     	if(user!=null) {
     		model.addAttribute("user",user);
@@ -134,7 +134,7 @@ public class CrewController {
 		
     	HttpSession session = request.getSession();
     	String username = (String)session.getAttribute("username");
-    	User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username).orElseThrow();
     	
     	model.addAttribute("user", user);
     	
@@ -216,7 +216,7 @@ public class CrewController {
 		// 유효성 검사 통과 후 
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
 		
 		System.out.println(user + " crewAdmin user 정보");
 
@@ -355,7 +355,7 @@ public class CrewController {
 	public String request(@PathVariable("cid") long cid, Model model, HttpServletRequest request) throws Exception {
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
 		model.addAttribute("user", user);
 		model.addAttribute("cid", cid);
 		return "crew/follow-request";
@@ -396,7 +396,7 @@ public class CrewController {
 		
 		HttpSession session = request.getSession();
 		String username = (String)session.getAttribute("username");
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseThrow();
     	
 //    	crewRepository.findById(cid).getMembers().remove(user);
     	
@@ -404,7 +404,7 @@ public class CrewController {
 		
 		Notification notification = new Notification();
 		notification.setUser(user);
-		notification.setNoti(crewRepository.findById(cid).getName()+" 크루를 탈퇴했습니다.");
+		notification.setContent(crewRepository.findById(cid).getName()+" 크루를 탈퇴했습니다.");
 		notificationService.save(notification);	
 
 		return "redirect:/crew/crew-detail/" + cid;
@@ -423,7 +423,7 @@ public class CrewController {
 		
 		Notification notification = new Notification();
 		notification.setUser(userRepository.findById(memberId));
-		notification.setNoti(crewRepository.findById(crewId).getName()+" 크루에서 내보내졌습니다.");
+		notification.setContent(crewRepository.findById(crewId).getName()+" 크루에서 내보내졌습니다.");
 		notificationService.save(notification);	
 		
 		// Crew의 List<User> members에서 삭제
@@ -465,7 +465,7 @@ public class CrewController {
 		Crew crew = crewRepository.findById(crewId);
 		
 		notification.setUser(user);
-		notification.setNoti(crew.getName()+" 크루 멤버 요청이 거절되었습니다.");
+		notification.setContent(crew.getName()+" 크루 멤버 요청이 거절되었습니다.");
 		notificationService.save(notification);	
     	
 		followRequestRepository.deleteByFromUserIdAndToCrewId(requestId, crewId);
