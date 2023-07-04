@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.ddam.spring.domain.Crew;
+import com.ddam.spring.domain.crew.Crew;
 
 @Component
 public class CrewValidator implements Validator{

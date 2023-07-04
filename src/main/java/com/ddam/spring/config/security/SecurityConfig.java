@@ -1,7 +1,7 @@
 package com.ddam.spring.config.security;
 
 import com.ddam.spring.dto.UserDto;
-import com.ddam.spring.service.UserService;
+import com.ddam.spring.service.user.UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

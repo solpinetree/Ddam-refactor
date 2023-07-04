@@ -1,7 +1,7 @@
 package com.ddam.spring.dto;
 
 import com.ddam.spring.constant.Role;
-import com.ddam.spring.domain.User;
+import com.ddam.spring.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

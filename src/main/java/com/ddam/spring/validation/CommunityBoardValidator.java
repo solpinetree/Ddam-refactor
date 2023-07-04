@@ -3,7 +3,7 @@ package com.ddam.spring.validation;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.ddam.spring.domain.CommunityBoard;
+import com.ddam.spring.domain.community.CommunityBoard;
 
 public class CommunityBoardValidator implements Validator {
 
