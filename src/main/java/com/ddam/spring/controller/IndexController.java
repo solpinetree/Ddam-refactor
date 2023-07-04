@@ -1,9 +1,9 @@
 package com.ddam.spring.controller;
 
-import com.ddam.spring.domain.CommunityBoard;
-import com.ddam.spring.domain.Crew;
-import com.ddam.spring.service.CommunityBoardService;
-import com.ddam.spring.service.CrewService;
+import com.ddam.spring.domain.community.CommunityBoard;
+import com.ddam.spring.domain.crew.Crew;
+import com.ddam.spring.service.community.CommunityBoardService;
+import com.ddam.spring.service.crew.CrewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;

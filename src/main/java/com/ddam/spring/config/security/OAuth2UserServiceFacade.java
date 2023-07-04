@@ -1,10 +1,10 @@
 package com.ddam.spring.config.security;
 
 import com.ddam.spring.constant.Role;
-import com.ddam.spring.domain.User;
+import com.ddam.spring.domain.user.User;
 import com.ddam.spring.dto.KakaoOAuth2Response;
 import com.ddam.spring.dto.UserDto;
-import com.ddam.spring.service.UserService;
+import com.ddam.spring.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
