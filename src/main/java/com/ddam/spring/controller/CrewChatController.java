@@ -1,33 +1,23 @@
 package com.ddam.spring.controller;
 
+import com.ddam.spring.domain.CrewChat;
+import com.ddam.spring.repository.UserRepository;
+import com.ddam.spring.service.CrewChatService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.ddam.spring.domain.CrewChat;
-import com.ddam.spring.domain.User;
-import com.ddam.spring.repository.UserRepository;
-import com.ddam.spring.service.CrewChatService;
-
+@RequiredArgsConstructor
 @Controller
 public class CrewChatController {
 	
-	@Autowired
-	CrewChatService crewChatService;
-	
-	@Autowired
-	UserRepository userRepository;
+	private final CrewChatService crewChatService;
+	private final UserRepository userRepository;
 	
 	@RequestMapping("/crew/message/{id}")
 	public String message(@PathVariable("id") int id, Model model) throws Exception {

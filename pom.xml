@@ -80,17 +80,11 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
-		<dependency>
-		    <groupId>org.thymeleaf.extras</groupId>
-		    <artifactId>thymeleaf-extras-java8time</artifactId>
-		</dependency>
 		<!-- File Upload (대용량 파일 처리) -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.7</version>
-			<!-- <version>2.6</version> -->
-			<!-- <version>2.5</version> -->
 		</dependency>
 		<!-- File Upload (file upload 기능 사용) -->
 		<dependency>

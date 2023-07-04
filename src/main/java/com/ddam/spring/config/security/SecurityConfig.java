@@ -23,7 +23,7 @@ public class SecurityConfig {
 		return http
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-						.mvcMatchers("/", "/fonts/**", "/font-awesome/**", "/img/**").permitAll()
+						.mvcMatchers("/", "/fonts/**", "/font-awesome/**", "/img/**", "/crewphoto/**").permitAll()
 						.anyRequest().authenticated()
 				)
 				.formLogin(withDefaults())

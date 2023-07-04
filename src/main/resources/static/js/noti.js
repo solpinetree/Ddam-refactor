@@ -67,6 +67,6 @@ function notilist() {
 
 $(document).ready(function(){
     notiCount();
-    setInterval(notiCount,1000);	// 처음 시작했을 때 실행되도록
-    setInterval(notilist, 4000);
+    // setInterval(notiCount,1000);	// 처음 시작했을 때 실행되도록
+    // setInterval(notilist, 4000);
 });

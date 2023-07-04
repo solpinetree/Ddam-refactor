@@ -1,28 +1,21 @@
 package com.ddam.spring.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ddam.spring.domain.Crew;
 import com.ddam.spring.domain.Meetup;
 import com.ddam.spring.repository.CrewRepository;
 import com.ddam.spring.repository.MeetupRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@RequiredArgsConstructor
 @Service
 public class MeetupService {
 	
-	@Autowired
-	MeetupRepository meetupRepository;
-	
-	@Autowired
-	MeetupUserService meetupUserService;
-	
-	@Autowired
-	CrewRepository crewRepository;
+	private final MeetupRepository meetupRepository;
+	private final MeetupUserService meetupUserService;
+	private final CrewRepository crewRepository;
 	
 	public Meetup save(long cid, Meetup meetup) {
 		
