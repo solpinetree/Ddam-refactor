@@ -1,20 +1,13 @@
 package com.ddam.spring.domain;
 
-import java.sql.Timestamp;
-import java.util.Comparator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Data;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Comparator;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 @Data

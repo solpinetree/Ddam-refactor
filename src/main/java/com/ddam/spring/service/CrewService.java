@@ -4,7 +4,6 @@ package com.ddam.spring.service;
 import com.ddam.spring.domain.Crew;
 import com.ddam.spring.repository.CrewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

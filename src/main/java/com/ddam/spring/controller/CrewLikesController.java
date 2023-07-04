@@ -1,31 +1,26 @@
 package com.ddam.spring.controller;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ddam.spring.repository.CrewRepository;
+import com.ddam.spring.repository.LikesRepository;
+import com.ddam.spring.service.LikesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ddam.spring.repository.CrewRepository;
-import com.ddam.spring.repository.LikesRepository;
-import com.ddam.spring.service.LikesService;
+import java.util.HashMap;
+import java.util.Map;
 
+@RequiredArgsConstructor
 @Controller
 public class CrewLikesController {
 	
-	@Autowired
-	LikesService likesService;
-	
-	@Autowired
-	LikesRepository likesRepository;
-	
-	@Autowired
-	CrewRepository crewRepository;
+	private final LikesService likesService;
+	private final LikesRepository likesRepository;
+	private final CrewRepository crewRepository;
 
 	@PostMapping("/likes/update")
 	@ResponseBody

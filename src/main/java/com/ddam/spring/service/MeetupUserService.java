@@ -1,28 +1,23 @@
 package com.ddam.spring.service;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.ddam.spring.domain.Meetup;
 import com.ddam.spring.domain.MeetupUser;
 import com.ddam.spring.repository.MeetupRepository;
 import com.ddam.spring.repository.MeetupUserRepository;
 import com.ddam.spring.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@RequiredArgsConstructor
 @Service
 public class MeetupUserService {
 
-	@Autowired
-	MeetupUserRepository meetupUserRepository;
-	
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	MeetupRepository meetupRepository;
-	
+	private final MeetupUserRepository meetupUserRepository;
+	private final UserRepository userRepository;
+	private final MeetupRepository meetupRepository;
 	
 	public int find(long uid, long mid) {
 		if(meetupUserRepository.countByUserIdAndMeetupId(uid, mid) != 0) {	//이미 참가 신청한 경우
