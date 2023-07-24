@@ -81,7 +81,7 @@ public class CrewController {
         model.addAttribute("meetupCount", meetupCount);
         model.addAttribute("crewList", crewList);
 
-        return "crew/crews";
+        return "crew/crews/main";
     }
 
     /**

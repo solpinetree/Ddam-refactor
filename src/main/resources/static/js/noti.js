@@ -3,8 +3,6 @@ function notiCount(){
 
     var userId = $("#userId").val();
 
-    console.log("userId: " + userId);
-
     $.ajax({
         url: "/notifications/count?userId="+userId,
         type: "GET",

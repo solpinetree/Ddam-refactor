@@ -1,11 +1,11 @@
 package com.ddam.spring.repository.crew;
 
-import java.util.List;
-
+import com.ddam.spring.domain.crew.CrewChat;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ddam.spring.domain.crew.CrewChat;
+import java.util.List;
 
 public interface  CrewChatRepository extends JpaRepository<CrewChat, Long> {
-	List<CrewChat> findByWriterId(long writerId);
+
+	List<CrewChat> findAllByOrderByCreatedAtAsc();
 }
