@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>크루 탐색</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles-merged.css}">
+    <link rel="stylesheet" th:href="@{/css/style.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}">
+</head>
+
+<head th:replace="/include/common::iconstyle"></head>
+
+<body>
+
+<div class="probootstrap-page-wrapper">
+
+    <div th:replace="/include/header::header"></div>
+    <div th:replace="/include/header::nav"></div>
+
+    <section
+            class="probootstrap-section probootstrap-section-colored probootstrap-bg probootstrap-custom-heading probootstrap-tab-section"
+            style="background-image: url(/img/meetup2.png); width:1200px !important; height:350px !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center section-heading probootstrap-animate">
+                    <h2 class="mb0">크루 모집</h2>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="probootstrap-tab-style-1">
+            <ul class="nav nav-tabs probootstrap-center probootstrap-tabs no-border">
+                <li class="active"><a data-toggle="tab" href="#crewListUp">크루 탐색</a></li>
+                <li><a data-toggle="tab" href="#crewOpenChat">오픈 채팅</a></li>
+            </ul>
+        </div>
+        <div sec:authorize="isAnonymous()" class="probootstrap-tab-style-1">
+            <ul class="nav nav-tabs probootstrap-center probootstrap-tabs no-border">
+                <li class="active"><a data-toggle="tab" href="#crewListUp">크루 탐색</a></li>
+                <li><a href="" onClick="alert('로그인 후에 이용해주세요!')">오픈 채팅</a></li>
+            </ul>
+        </div>
+    </section>
+
+
+    <section class="probootstrap-section probootstrap-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab-content">
+                        <div id="crewListUp" class="tab-pane fade in active">
+                            <section th:replace="/crew/crews/data-display::data-display"></section>
+                            <section th:replace="/crew/crews/crew-list::crew-list"></section>
+                        </div>
+
+                            <div th:replace="/crew/crews/open-chat::open-chat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--  크루 생성하기 버튼 -->
+    <section class="probootstrap-cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="probootstrap-animate" data-animate-effect="fadeInRight">당신의 운동 파트너를 찾아보세요!</h2>
+                    <a href="newcrew" role="button"
+                       class="btn btn-primary btn-lg btn-ghost probootstrap-animate"
+                       data-animate-effect="fadeInLeft">크루 개설하기</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="/include/footer::footer"></div>
+
+</div>
+
+<script th:src="@{/js/scripts.min.js}"></script>
+<script th:src="@{/js/main.min.js}"></script>
+
+</body>
+</html>

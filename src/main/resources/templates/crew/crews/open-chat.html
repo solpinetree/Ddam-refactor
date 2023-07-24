@@ -1,0 +1,19 @@
+<div id="crewOpenChat" class="tab-pane fade" th:fragment="open-chat">
+    <div class="chat-page">
+        <div class="msg_view" id="msgDiv"
+             style="overflow-y:scroll; width:80%; margin:auto; height:500px; padding:4px; border:1 solid #000000;"></div>
+        <!-- 여기에 msg view가 나타남 ajax로! -->
+        <div id="msg_input" sec:authorize="isAuthenticated()"><br><br>
+            <form id="chatinput" name="chatinput">
+                <input type="hidden" name="senderId" id="senderId" th:value="${#authentication.principal.id}">
+                <input type="hidden" name="senderName" id="senderName" th:value="${#authentication.principal.nickname}">
+                <div style=" margin-left:60%;">
+                    <input type="text" name="message" class="textiiii" placeholder="메시지 보내기..."
+                           style="text-align:center; width:70%;" id="msg" required>
+                    <button type="button" id="chatbtn" class="btn btn-primary">보내기</button>
+                </div>
+            </form>
+            <script type="text/javascript" th:src="@{/js/open-chat.js}"></script>
+        </div>
+    </div>
+</div>
